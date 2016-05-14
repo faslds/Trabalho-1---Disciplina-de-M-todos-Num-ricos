@@ -5,18 +5,16 @@
 void sor(double **mat, double *b, double emax, double w, int t)
 {
 	int i, j, k=0, N=t/5; /*N eh a ordem da matriz e recebe t/5, onde 
-	t eh a quantidade 	maxima de 	iteracoes, definida como t = n*5*/
+	t eh a quantidade maxima de iteracoes, definida como t = n*5*/
 	double a, e=1.0;
 	double *x = malloc(N*sizeof(double)); //aloca o espaco necessario para os vetores da iteracao x(k) e x(k+1)
 	double *xold = malloc(N*sizeof(double));	
 	//esse for preenche a aproximacao inicial
-	for(i = 0; i<N; i++)
-	{
+	for(i = 0; i<N; i++){
 		x[i] = 1; //nesse caso todos os elementos sao igual a 1
 	}
 	e = 1.0;
-	while((k<=t-1)&&(e>=emax))
-	{	
+	while((k<=t-1)&&(e>=emax)){	
 		int i=0, j=0;
 		for(i=0; i<N; i++) //copia a iteracao atual na velha
 		{
