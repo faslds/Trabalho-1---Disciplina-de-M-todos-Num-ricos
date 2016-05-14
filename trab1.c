@@ -3,26 +3,60 @@
 #define M 0.0000001
 #define N 7
 
-void sor(double w, double mat[][N], double b[], double x[], double xold[])
+void sor(double w, double mat[][N], double b[], double x[], double xold[], double e, int k, int t)
 {
-	int i=0, j=0;
+	int i, j;
 	double a;
-	for(i=0; i<N; i++)
-	{
-		xold[i] = x[i];
-	}
-	for(i=0; i<N; i++)
-	{
-		a = 0.0;
-		for(j=0; j<N; j++)
+	for(j=0; j<=20; j++)
+	{	
+		for(i = 0; i<N; i++)
 		{
-			if(j != i)
-			{
-				a = a + (mat[i][j])*(x[j]);
-			}
+			x[i] = 1;
 		}
-	x[i] = w*(b[i] - a)/mat[i][i];
-	x[i] = x[i] - (w-1)*xold[i];
+		e = 1.0;
+		while((k<=t)&&(e>=M))
+		{	
+			int i=0, j=0;
+			for(i=0; i<N; i++)
+			{
+				xold[i] = x[i];
+			}
+			for(i=0; i<N; i++)
+			{
+				a = 0.0;
+				for(j=0; j<N; j++)
+				{
+					if(j != i)
+					{
+						a = a + (mat[i][j])*(x[j]);
+					}
+				}
+			x[i] = w*(b[i] - a)/mat[i][i];
+			x[i] = x[i] - (w-1)*xold[i];
+			}
+			e = 0.0;
+				for(i=0; i<N; i++)
+				{
+					e = e + ((x[i] - xold[i])*(x[i] - xold[i]));
+				}
+				e = sqrt(e);
+				k++;
+		}
+		if(e <= M)
+	 		{
+				printf("\n\nO sistema converge para w = %f e sua solucao eh:\n\n", w);
+		 		for(i=0; i<N; i++)
+		 		{
+		 			printf("%f\n", x[i]);
+				}	
+				printf("\nNumero de iteracoes: %d\n\n", k);
+			}
+			else if(k = t)
+			{
+				printf("\nO sistema diverge para w = %f\n", w);
+			}
+	 	k = 0;
+		w = w + 0.1;
 	}
 }
 
@@ -104,14 +138,15 @@ int main()
 		printf("b[%d] = %f\n", i, b[i]);
 	}
  	
- 	for(ibiza=0; ibiza<=20; ibiza++)
- 	{
-		for(i = 0; i<N; i++)
+ 	//for(ibiza=0; ibiza<=20; ibiza++)
+ 	//{
+	/*	for(i = 0; i<N; i++)
 		{
 			x[i] = 1;
-		}
+		}/*/
 		e = 1.0;
-	 	while((k<=t)&&(e>=M))
+		sor(w, mat, b, x, xold, e, k, t);
+	 	/*while((k<=t)&&(e>=M))
 	 	{
 	 		sor(w, mat, b, x, xold);
 			e = 0.0;
@@ -122,6 +157,7 @@ int main()
 			e = sqrt(e);
 			k++;
 	 	}
+	 	sor(w, mat, b, x, xold, e, k, t);
 	 		if(e <= M)
 	 		{
 				printf("\n\nO sistema converge para w = %f e sua solucao eh:\n\n", w);
@@ -137,7 +173,7 @@ int main()
 			}
 	 	k = 0;
 		w = w + 0.1;
-	}
+	}*/
 	
  }
  
