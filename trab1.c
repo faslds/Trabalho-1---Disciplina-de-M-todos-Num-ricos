@@ -1,9 +1,10 @@
 #include<stdio.h>
+#include<stdlib.h>
 #include<math.h>
 #define M 0.0000001
-#define N 7
+//#define N 7
 
-void sor(double w, double mat[][N], double b[], double x[], double xold[], double e, int k, int t)
+void sor(double w, double **mat, double *b, double *x, double *xold, double e, int k, int t, int N)
 {
 	int i, j;
 	double a;
@@ -62,12 +63,24 @@ void sor(double w, double mat[][N], double b[], double x[], double xold[], doubl
 
 int main()
 {
- 	int i, j, k = 0, ibiza, t = 50;
- 	//printf("Qual sera a dimensao da matriz A? ");
- 	//scanf("%d", &n);
-	double mat[N][N], x[N], b[N], xold[N];
+ 	int i, j, k = 0, ibiza, t = 50, N;
+ 	double **mat, *x, *b, *xold;
 	double e = 1.0;
  	double w = 0.0;
+ 
+ 	printf("Qual sera a dimensao da matriz A? ");
+ 	scanf("%d", &N);
+ 	
+ 	mat = malloc(N*sizeof(double *));
+ 	for(i=0; i<N; i++)
+ 	{
+ 		mat[i] = malloc(N*sizeof(double));
+	}
+	b = malloc(N*sizeof(double));
+	x = malloc(N*sizeof(double));
+	xold = malloc(N*sizeof(double));
+ 	
+ 	
 	/*for(i=0; i<N; i++){
 		for(j=0; j<N; j++)
 			printf("[%d,%d]=%.1f ", i, j, mat[i][j]);
@@ -129,8 +142,12 @@ int main()
  	printf("Sua matriz A eh:\n\n");
 	for(i=0; i<N; i++){
 		for(j=0; j<N; j++)
-			printf("[%d,%d]=%.1f ", i, j, mat[i][j]);
-		printf("\n");	
+		{
+		
+	printf("%4.1f ", mat[i][j]);
+			//printf("[%d,%d]=%.1f ", i, j, mat[i][j]);
+		}
+			printf("\n");	
 	}
 	printf("\nSua matriz b eh:\n\n");
 	for(i = 0; i < N; i++)
@@ -145,7 +162,7 @@ int main()
 			x[i] = 1;
 		}/*/
 		e = 1.0;
-		sor(w, mat, b, x, xold, e, k, t);
+		sor(w, mat, b, x, xold, e, k, t, N);
 	 	/*while((k<=t)&&(e>=M))
 	 	{
 	 		sor(w, mat, b, x, xold);
